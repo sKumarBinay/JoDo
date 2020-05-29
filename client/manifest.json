@@ -1,0 +1,18 @@
+{
+    "name": "Join Dots",
+    "short_name": "JoDo",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "description": "A shared book of recipe",
+    "icons": [{
+      "src": "assets/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }]
+  }

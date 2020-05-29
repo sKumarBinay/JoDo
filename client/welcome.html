@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="client/style.css">
+    <link rel="manifest" href="client/manifest.json">
+    <link rel="shortcut icon" href="favicon" type="image/x-icon">
+</head>
+<body>
+    <div class="welcome-wrapper">
+        <h2>JoDo</h2>
+        <div>
+            <input type="radio" id="row6" name="row" value="6" checked>
+            <label for="row6">6 Rows</label><br>
+            <input type="radio" id="row7" name="row" value="7">
+            <label for="row7">7 Rows</label><br>
+            <input type="radio" id="row8" name="row" value="8">
+            <label for="row8">8 Rows</label><br>
+        </div>
+        <button class="control host">Host</button>
+        <div class="join">
+            <label for="join"></label>
+            <input type="text" name="join" id="join" placeholder="Enter playroom ID">
+            <button class="control join">Join</button>
+        </div>
+    </div>
+    <div class="install-prompt-wrapper d-none">
+        <div class="prompt">
+            <div class="promp-head">
+                <img src="client/assets/192.png"> Welcome to Join Dots 
+            </div>
+            <div class="promp-body">What Do you like DoJo to call you?
+            </br></br><input type="text" id="user"></div>
+            <div class="promp-footer">
+                <button class="no d-none">No</button>
+                <button class="yes d-none">Yipeee I'm in</button>
+            </div>
+        </div>
+    </div>
+    <script src="client/js/welcome.js"></script>
+</body>
+</html>
