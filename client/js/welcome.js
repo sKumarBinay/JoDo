@@ -56,7 +56,7 @@ host.addEventListener('click', () => {
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
         }
-    }).then(res => console.log(res.json()))
+    }).then(() => goToPlayground(roomId))
 })
 
 function getNewData(id) {
@@ -89,6 +89,10 @@ join.addEventListener('click', () => {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             }
-        }).then(res => console.log(res.json()))
+        }).then(() => goToPlayground(roomId))
     }
 })
+
+function goToPlayground (roomId) {
+    window.location.href = `jodo?sessionId=${roomId}`
+}

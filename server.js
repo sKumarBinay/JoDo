@@ -38,6 +38,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/welcome.html'));
 })
 
+app.get('/jodo', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/index.html'));
+})
+
 
 // // sign up page
 // app.get('/recipe', (req, res) => {

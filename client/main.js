@@ -1,15 +1,17 @@
 import { swipedetect } from './js/swipe-detect.js'
 
-
+const url_string = window.location.href
+const url = new URL(url_string)
+const c = url.searchParams.get('sessionId')
 const board = document.querySelector('.board')
-const radios = document.querySelectorAll('input[type="radio"]')
+
 window.onload = () => {
-    radios[0].click()
-}
-radios.forEach(r => {
-    r.addEventListener('click', (e) => {
+    fetch(`/jodo/room/${c}`)
+    .then(res => res.json())
+    .then(res => {
+        const row = parseInt(res[0].level)
         board.innerHTML = ''
-        for (let i = 1; i <= parseInt(e.target.value); i++) {
+        for (let i = 1; i <= row; i++) {
             const rowTemplate = `<div class="row" data-row="${i}">
             <span class="area" data-span="r-${i}-1"></span>
             <span class="area" data-span="r-${i}-2"></span>
@@ -46,11 +48,12 @@ radios.forEach(r => {
                     const afterCount = countSpan()
                     // if (afterCount > prevCount) board.style.pointerEvents = 'none'
                 })
-
+    
             })
         }
     })
-})
+}
+
 
 function markAfterJoin(data, swipedir, prev = null) {
     const current = document.querySelector(`[data-span="${data}"]`)
