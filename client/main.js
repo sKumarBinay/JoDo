@@ -224,6 +224,8 @@ function autoRefresh() {
             .then(res => {
                 if (p2.textContent === '') {
                     p2.textContent = res[0].player2.charAt(0).toUpperCase()
+                } else if (p1.textContent === '') {
+                    p1.textContent = res[0].player1.charAt(0).toUpperCase()
                 }
                 mapBorderColor(res[0].data)
                 mapBox(res[0].player1, 'player1')
