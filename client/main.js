@@ -260,8 +260,8 @@ function switchUser(data) {
             } else board.style.pointerEvents = 'none'
         } else if (p2.classList.contains('selected')) {
             if (localStorage.getItem('player') === 'player2') {
-                board.style.pointerEvents = 'none'
-            } else board.style.pointerEvents = 'auto'
+                board.style.pointerEvents = 'auto'
+            } else board.style.pointerEvents = 'none'
         }
     }
 }
