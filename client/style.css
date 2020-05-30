@@ -195,8 +195,5 @@ span.play-room-id {
 
 .user-box.player2 {
   color: white;
-  height: 30px;
   background-color: rgb(255, 115, 0);
-  border-radius: 50%;
-  pointer-events: none;
 }
