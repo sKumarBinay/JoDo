@@ -233,7 +233,7 @@ function autoRefresh() {
                 switchUser(res[0])
                 checkWinner(res[0])
             })
-    }, 500);
+    }, 1000);
 }
 
 function switchUser(data) {
