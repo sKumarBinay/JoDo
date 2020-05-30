@@ -27,27 +27,28 @@ window.onload = () => {
                 span.forEach(s => {
                     const data = s.getAttribute('data-span')
                     swipedetect(s, function (swipedir) {
+                        const player = localStorage.getItem('player')
                         if (swipedir === 'right') {
                             s.style.borderTop = '2px solid white'
-                            storeBorderColor(`${s.getAttribute('data-span')}-Top`)
+                            storeBorderColor(`${s.getAttribute('data-span')}-Top=${player}`)
                             markAfterJoin(data, swipedir)
                         } else if (swipedir === 'down') {
                             s.style.borderLeft = '2px solid white'
-                            storeBorderColor(`${s.getAttribute('data-span')}-Left`)
+                            storeBorderColor(`${s.getAttribute('data-span')}-Left=${player}`)
                             markAfterJoin(data, swipedir)
                         } else if (swipedir === 'left') {
                             const data = s.getAttribute('data-span')
                             const selector = `[data-span="r-${data.split('-')[1]}-${parseInt(data.split('-')[2]) - 1}"]`
                             const previous = document.querySelector(selector)
                             previous.style.borderTop = '2px solid white'
-                            storeBorderColor(`${previous.getAttribute('data-span')}-Top`)
+                            storeBorderColor(`${previous.getAttribute('data-span')}-Top=${player}`)
                             markAfterJoin(data, swipedir, previous)
                         } else if (swipedir === 'up') {
                             const data = s.getAttribute('data-span')
                             const selector = `[data-span="r-${parseInt(data.split('-')[1]) - 1}-${data.split('-')[2]}"]`
                             const previous = document.querySelector(selector)
                             previous.style.borderLeft = '2px solid white'
-                            storeBorderColor(`${previous.getAttribute('data-span')}-Left`)
+                            storeBorderColor(`${previous.getAttribute('data-span')}-Left=${player}`)
                             markAfterJoin(data, swipedir, previous)
                         }
                         checkForSquare(s, swipedir)
@@ -229,29 +230,26 @@ function switchUser(data) {
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
-    } else if (data.data.length !== localStorage.getItem('data').length &&
-        (localStorage.getItem('player1score').length === window.prevP1Score ||
-            localStorage.getItem('player2score').length === window.prevP2Score)) {
-        localStorage.setItem('previousSpanCount', coun)
-        window.prevP1Score = localStorage.getItem('player1score').length
-        window.prevP2Score = localStorage.getItem('player2score').length
-        p1.classList.toggle('selected')
-        p2.classList.toggle('selected')
-        if (p1.classList.contains('selected')) {
-            if (localStorage.getItem('player') === 'player1') {
-                board.style.pointerEvents = 'auto'
-            } else {
-            board.style.pointerEvents = 'none'
-            }
-        } else if (p2.classList.contains('selected')) {
-            if (localStorage.getItem('player') === 'player2') {
-                board.style.pointerEvents = 'auto'
-            } else {
-                board.style.pointerEvents = 'none'
-            }
+    } else if (data.data.charAt(data.data.length - 1) === '1') {
+        p1.classList.remove('selected')
+        p2.classList.add('selected')
+    } else if (data.data.charAt(data.data.length - 1) === '2') {
+        p1.classList.add('selected')
+        p2.classList.remove('selected') 
+    }
+    
+    if (p1.classList.contains('selected')) {
+        if (localStorage.getItem('player') === 'player1') {
+            board.style.pointerEvents = 'auto'
+        } else {
+        board.style.pointerEvents = 'none'
         }
-    } else {
-        board.style.pointerEvents = 'none' 
+    } else if (p2.classList.contains('selected')) {
+        if (localStorage.getItem('player') === 'player2') {
+            board.style.pointerEvents = 'auto'
+        } else {
+            board.style.pointerEvents = 'none'
+        }
     }
 }
 
@@ -274,6 +272,7 @@ function mapBorderColor(data) {
     const dataArr = data.split('+')
     dataArr.shift()
     dataArr.forEach(d => {
+        d = d.split('=')[0]
         const delimiter = '-'
         const start = 3
         const token1 = d.split(delimiter).slice(start)
