@@ -69,6 +69,14 @@ window.onload = () => {
             localStorage.setItem('player1score', res[0].player1.score)
             localStorage.setItem('player2score', res[0].player2.score)
             // countSpan()
+            let count = 0
+            document.querySelectorAll('span').forEach(s => {
+                if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
+            })
+            window.prevSpanCount = count
+            localStorage.getItem('player1score').length
+            window.prevP1Score = localStorage.getItem('player1score').length
+            window.prevP2Score = localStorage.getItem('player2score').length
             autoRefresh()
         })
 }
@@ -210,23 +218,17 @@ function storeBorderColor(data) {
 }
 
 function autoRefresh() {
-    let count = 0
-    document.querySelectorAll('span').forEach(s => {
-        if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
-    })
-    window.prevSpanCount = count
-    localStorage.getItem('player1score').length
-    window.prevP1Score = localStorage.getItem('player1score').length
-    window.prevP2Score = localStorage.getItem('player2score').length
-
     setInterval(() => {
         fetch(`/jodo/room/${c}`)
             .then(res => res.json())
             .then(res => {
-                switchUser(res[0])
+                if (p2.textContent === '') {
+                    p2.textContent = res[0].player2.charAt(0).toUpperCase()
+                }
                 mapBorderColor(res[0].data)
                 mapBox(res[0].player1, 'player1')
                 mapBox(res[0].player2, 'player2')
+                switchUser(res[0])
                 checkWinner(res[0])
             })
     }, 500);
@@ -242,27 +244,27 @@ function switchUser(data) {
     if (count === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
-    } else if (count > window.prevSpanCount && 
-        (localStorage.getItem('player1score').length === window.prevP1Score || 
-        localStorage.getItem('player2score').length === window.prevP2Score)) {
+    } else if (count > window.prevSpanCount &&
+        (localStorage.getItem('player1score').length === window.prevP1Score ||
+            localStorage.getItem('player2score').length === window.prevP2Score)) {
         window.prevSpanCount = count
         window.prevP1Score = localStorage.getItem('player1score').length
         window.prevP2Score = localStorage.getItem('player2score').length
         p1.classList.toggle('selected')
         p2.classList.toggle('selected')
-            if (p1.classList.contains('selected')) {
-                if (localStorage.getItem('player') === 'player1') {
-                    board.style.pointerEvents = 'auto'
-                } else board.style.pointerEvents = 'none'
-            } else if (p2.classList.contains('selected')) {
-                if (localStorage.getItem('player') === 'player1') {
-                    board.style.pointerEvents = 'none'
-                } else board.style.pointerEvents = 'auto' 
-            }
+        if (p1.classList.contains('selected')) {
+            if (localStorage.getItem('player') === 'player1') {
+                board.style.pointerEvents = 'auto'
+            } else board.style.pointerEvents = 'none'
+        } else if (p2.classList.contains('selected')) {
+            if (localStorage.getItem('player') === 'player1') {
+                board.style.pointerEvents = 'none'
+            } else board.style.pointerEvents = 'auto'
+        }
     }
 }
 
-function checkWinner (data) {
+function checkWinner(data) {
     let count = 0
     document.querySelectorAll('span').forEach(s => {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
@@ -272,7 +274,7 @@ function checkWinner (data) {
         const p2Score = document.querySelector('[data-player2]')
         if (p1Score > p2Score) {
             window.alert(data.player1.name + 'wins!!!')
-        } else  window.alert(data.player2.name + 'wins!!!')
+        } else window.alert(data.player2.name + 'wins!!!')
     }
 }
 
