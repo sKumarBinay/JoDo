@@ -246,7 +246,7 @@ function switchUser(data) {
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
-    } else if (coun > localStorage.getItem('previousSpanCount') &&
+    } else if (data.data.length > localStorage.getItem('data').length &&
         (localStorage.getItem('player1score').length === window.prevP1Score ||
             localStorage.getItem('player2score').length === window.prevP2Score)) {
         localStorage.setItem('previousSpanCount', coun)
