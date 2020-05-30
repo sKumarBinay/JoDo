@@ -50,9 +50,7 @@ exports.updateSession = (req, res) => {
     { 'sessionId': req.params.sessionId },
     { 
         "$set": {
-            "data": req.body.data,
-            "player1.score": req.body.player1.score,
-            "player2.score": req.body.player2.score
+            "data": req.body.data
         }
     }, { new: true },
     function(err,doc) {
@@ -67,6 +65,34 @@ exports.updateSecondPlayer = (req, res) => {
     { 
         "$set": {
             "player2.name": req.body.player2.name
+        }
+    }, { new: true },
+    function(err,doc) {
+        res.send(doc)
+    }
+)
+}
+
+exports.updatePlayer1Score = (req, res) => {
+  Playroom.updateMany(
+    { 'sessionId': req.params.sessionId },
+    { 
+        "$set": {
+            "player1.score": req.body.player1.score
+        }
+    }, { new: true },
+    function(err,doc) {
+        res.send(doc)
+    }
+)
+}
+
+exports.updatePlayer2Score = (req, res) => {
+  Playroom.updateMany(
+    { 'sessionId': req.params.sessionId },
+    { 
+        "$set": {
+            "player2.score": req.body.player2.score
         }
     }, { new: true },
     function(err,doc) {

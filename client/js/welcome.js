@@ -56,7 +56,7 @@ host.addEventListener('click', () => {
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
         }
-    }).then(() => goToPlayground(roomId))
+    }).then(() => goToPlayground(roomId, 'player1'))
 })
 
 function getNewData(id) {
@@ -66,11 +66,11 @@ function getNewData(id) {
         level: document.querySelector('[name="row"]:checked').value,
         player1: {
             name: localStorage.getItem('user'),
-            score: 0
+            score: ''
         },
         player2: {
             name: 'Unknown',
-            score: 0
+            score: ''
         }
     }
 }
@@ -89,10 +89,10 @@ join.addEventListener('click', () => {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             }
-        }).then(() => goToPlayground(roomId))
+        }).then(() => goToPlayground(roomId, 'player2'))
     }
 })
 
-function goToPlayground (roomId) {
-    window.location.href = `jodo?sessionId=${roomId}`
+function goToPlayground (roomId, player) {
+    window.location.href = `jodo?sessionId=${roomId}&player=${player}`
 }

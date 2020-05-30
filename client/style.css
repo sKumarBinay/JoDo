@@ -148,3 +148,54 @@ button.control {
   border-radius: 2px;
   border-style: none;
 }
+
+span.play-room-id {
+  margin-left: 10px;
+  color: #d1167c;
+  font-size: x-large;
+}
+
+.players {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10px;
+}
+
+.player1, .player2 {
+  height: 40px;
+  width: 40px;
+  background-color: #dfd8d8;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  color: black;
+  align-items: center;
+  font-weight: bolder;
+  font-size: x-large;
+  margin-left: 6px;
+}
+
+.player1.selected, .player2.selected {
+  transform: scale(1.5);
+  border: 2px solid #039ea2;
+}
+
+.user-box {
+  color: #383434;
+  height: 40px;
+  width: 40px;
+  background-color: chartreuse;
+  border-radius: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.user-box.player2 {
+  color: white;
+  height: 30px;
+  background-color: rgb(255, 115, 0);
+  border-radius: 50%;
+}
