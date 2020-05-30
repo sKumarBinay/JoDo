@@ -73,7 +73,7 @@ window.onload = () => {
             document.querySelectorAll('span').forEach(s => {
                 if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
             })
-            window.prevSpanCount = count
+            localStorage.setItem('previousSpanCount', count)
             localStorage.getItem('player1score').length
             window.prevP1Score = localStorage.getItem('player1score').length
             window.prevP2Score = localStorage.getItem('player2score').length
@@ -237,19 +237,19 @@ function autoRefresh() {
 }
 
 function switchUser(data) {
-    let count = 0
+    let coun = 0
     document.querySelectorAll('span').forEach(s => {
-        if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
+        if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
     // debugger
     board.style.pointerEvents = 'none'
-    if (count === 0 && localStorage.getItem('player') === 'player1') {
+    if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
-    } else if (count > window.prevSpanCount &&
+    } else if (coun > localStorage.getItem('previousSpanCount') &&
         (localStorage.getItem('player1score').length === window.prevP1Score ||
             localStorage.getItem('player2score').length === window.prevP2Score)) {
-        window.prevSpanCount = count
+        localStorage.setItem('previousSpanCount', coun)
         window.prevP1Score = localStorage.getItem('player1score').length
         window.prevP2Score = localStorage.getItem('player2score').length
         p1.classList.toggle('selected')

@@ -69,7 +69,7 @@ function getNewData(id) {
             score: ''
         },
         player2: {
-            name: 'Unknown',
+            name: '',
             score: ''
         }
     }
