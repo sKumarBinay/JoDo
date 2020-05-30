@@ -295,9 +295,9 @@ function mapBox(data, player) {
     dataArr.forEach(d => {
         const span = document.querySelector(`[data-span="${d}"]`)
         if (player === 'player1') {
-            span.innerHTML = `<div class="user-box">${localStorage.getItem('user').charAt(0).toUpperCase()}</div>`
+            span.innerHTML = `<div class="user-box">${data.name.charAt(0).toUpperCase()}</div>`
         } else {
-            span.innerHTML = `<div class="user-box player2">${localStorage.getItem('user').charAt(0).toUpperCase()}</div>`
+            span.innerHTML = `<div class="user-box player2">${data.name.charAt(0).toUpperCase()}</div>`
         }
     })
 }
