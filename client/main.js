@@ -225,7 +225,7 @@ function switchUser(data) {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
     // debugger
-    board.style.pointerEvents = 'none'
+    // board.style.pointerEvents = 'none'
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
