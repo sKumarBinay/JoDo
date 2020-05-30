@@ -250,6 +250,8 @@ function switchUser(data) {
                 board.style.pointerEvents = 'none'
             }
         }
+    } else {
+        board.style.pointerEvents = 'none' 
     }
 }
 
