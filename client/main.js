@@ -50,9 +50,7 @@ window.onload = () => {
                             storeBorderColor(`${previous.getAttribute('data-span')}-Left`)
                             markAfterJoin(data, swipedir, previous)
                         }
-
-                        const boxFormed = checkForSquare(s, swipedir)
-                        // countSpan(boxFormed)
+                        checkForSquare(s, swipedir)
                     })
 
                 })
@@ -108,17 +106,6 @@ function markAfterJoin(data, swipedir, prev = null) {
     }
 }
 
-// function countSpan(box) {
-//     let count = 0
-//     document.querySelectorAll('span').forEach(s => {
-//         if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
-//     })
-//     p1.classList.toggle('selected')
-//     if (count === 0 && localStorage.getItem('player') === 'player2') {
-//         board.style.pointerEvents = 'none'
-//     }
-// }
-
 function checkForSquare(currentSpan, swipedir) {
     const data = currentSpan.getAttribute('data-span')
     if (swipedir === 'up' || swipedir === 'down') {
@@ -146,7 +133,6 @@ function checkForSquare(currentSpan, swipedir) {
                 && currentSpanRight.getAttribute('data-selected').search(nextRight.getAttribute('data-span')) !== -1) {
                 const span = swipedir === 'down' ? currentSpan : next
                 checkScore(span)
-                return true
                 // window.alert('Right box complete')
             }
         }
@@ -156,7 +142,6 @@ function checkForSquare(currentSpan, swipedir) {
                 && currentSpanLeft.getAttribute('data-selected').search(nextLeft.getAttribute('data-span')) !== -1) {
                 const span = swipedir === 'down' ? currentSpanLeft : nextLeft
                 checkScore(span)
-                return true
                 // window.alert('Left box complete')
             }
         }
@@ -185,7 +170,6 @@ function checkForSquare(currentSpan, swipedir) {
                 && currentSpanUp.getAttribute('data-selected').search(nextUp.getAttribute('data-span')) !== -1) {
                 const span = swipedir === 'right' ? currentSpan : next
                 checkScore(span)
-                return true
                 // window.alert('Bottom box complete')
             }
         }
@@ -196,7 +180,6 @@ function checkForSquare(currentSpan, swipedir) {
 
                 const span = swipedir === 'right' ? currentSpanDown : nextDown
                 checkScore(span)
-                return true
                 // window.alert('Top box complete')
             }
         }
@@ -242,7 +225,7 @@ function switchUser(data) {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
     // debugger
-    // board.style.pointerEvents = 'none'
+    board.style.pointerEvents = 'none'
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
@@ -346,7 +329,7 @@ function checkScore(span) {
             method: 'PUT',
             mode: 'cors',
             body: JSON.stringify({
-                player1: {
+                player2: {
                     score: score
                 }
             }),
