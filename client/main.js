@@ -224,6 +224,8 @@ function refreshMethods () {
             localStorage.setItem('flag', 'true=player1')
         } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
             localStorage.setItem('flag', 'true=player2')
+        } else if (localStorage.getItem('data') !== res[0].data) {
+            localStorage.setItem('flag', 'false')
         }
 
         if (p2.textContent === '') {
