@@ -87,7 +87,7 @@ window.onbeforeunload = () => {
 
 
 function markAfterJoin(data, swipedir, prev = null) {
-    if(localStorage.getItem('flag').split[0] === 'true') {
+    if(localStorage.getItem('flag').split('=')[0] === 'true') {
         localStorage.setItem('flag', 'false')
     }
     const current = document.querySelector(`[data-span="${data}"]`)
