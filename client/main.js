@@ -281,6 +281,7 @@ function switchUser(data) {
         }
     }
 }
+}
 
 function checkWinner(data) {
     let count = 0
