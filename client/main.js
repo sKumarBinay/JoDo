@@ -215,6 +215,8 @@ function refreshMethods () {
     fetch(`/jodo/room/${c}`)
     .then(res => res.json())
     .then(res => {
+        localStorage.setItem('player2score', res[0].player2.score)
+        localStorage.setItem('player1score', res[0].player1.score)
         if (localStorage.getItem('player1score') !== res[0].player1.score) {
             localStorage.setItem('flag', 'true=player1')
         } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
