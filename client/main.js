@@ -222,7 +222,7 @@ function refreshMethods () {
         } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
             localStorage.setItem('flag', 'true=player2')
         }
-        
+
         if (p2.textContent === '') {
             p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
         } else if (p1.textContent === '') {
@@ -245,7 +245,7 @@ function switchUser(data) {
 
     const flag = localStorage.getItem('flag') || '='
     const flagState = flag.split('=')[0] === 'true' ? true : false
-    const flagUser = localStorage.getItem('flag').split('=')[0]
+    const flagUser = localStorage.getItem('flag').split('=')[1]
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
