@@ -35,7 +35,7 @@ self.addEventListener('fetch', e => {
         caches.open(cacheName).then(cache => {
           // Add response to cache
           if (e.request.method !== 'PUT' && e.request.method !== 'POST') {
-            cache.put(e.request, resClone)
+            //cache.put(e.request, resClone)
           }
         })
         return res
