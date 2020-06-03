@@ -31,31 +31,35 @@ window.onload = () => {
                     swipedetect(s, function (swipedir) {
                         const player = localStorage.getItem('player')
                         if (swipedir === 'right') {
-                            if (parseInt(s.getAttribute('data-span').split('-')[2]) !== 5) {
+                            if (parseInt(s.getAttribute('data-span').split('-')[2]) !== 5 && noOverWrite(s, swipedir)) {
                                 s.style.borderTop = '2px solid white'
                                 storeBorderColor(`${s.getAttribute('data-span')}-Top=${player}`)
                                 markAfterJoin(data, swipedir)
                             }
                         } else if (swipedir === 'down') {
-                            if (parseInt(s.getAttribute('data-span').split('-')[1]) !== row) {
+                            if (parseInt(s.getAttribute('data-span').split('-')[1]) !== row && noOverWrite(s, swipedir)) {
                                 s.style.borderLeft = '2px solid white'
                                 storeBorderColor(`${s.getAttribute('data-span')}-Left=${player}`)
                                 markAfterJoin(data, swipedir)
                             }
                         } else if (swipedir === 'left') {
-                            const data = s.getAttribute('data-span')
-                            const selector = `[data-span="r-${data.split('-')[1]}-${parseInt(data.split('-')[2]) - 1}"]`
-                            const previous = document.querySelector(selector)
-                            previous.style.borderTop = '2px solid white'
-                            storeBorderColor(`${previous.getAttribute('data-span')}-Top=${player}`)
-                            markAfterJoin(data, swipedir, previous)
+                            if (noOverWrite(s, swipedir)) {
+                                const data = s.getAttribute('data-span')
+                                const selector = `[data-span="r-${data.split('-')[1]}-${parseInt(data.split('-')[2]) - 1}"]`
+                                const previous = document.querySelector(selector)
+                                previous.style.borderTop = '2px solid white'
+                                storeBorderColor(`${previous.getAttribute('data-span')}-Top=${player}`)
+                                markAfterJoin(data, swipedir, previous)
+                            }
                         } else if (swipedir === 'up') {
-                            const data = s.getAttribute('data-span')
-                            const selector = `[data-span="r-${parseInt(data.split('-')[1]) - 1}-${data.split('-')[2]}"]`
-                            const previous = document.querySelector(selector)
-                            previous.style.borderLeft = '2px solid white'
-                            storeBorderColor(`${previous.getAttribute('data-span')}-Left=${player}`)
-                            markAfterJoin(data, swipedir, previous)
+                            if (noOverWrite(s, swipedir)) {
+                                const data = s.getAttribute('data-span')
+                                const selector = `[data-span="r-${parseInt(data.split('-')[1]) - 1}-${data.split('-')[2]}"]`
+                                const previous = document.querySelector(selector)
+                                previous.style.borderLeft = '2px solid white'
+                                storeBorderColor(`${previous.getAttribute('data-span')}-Left=${player}`)
+                                markAfterJoin(data, swipedir, previous)
+                            }
                         }
                         checkForSquare(s, swipedir)
                     })
@@ -415,5 +419,21 @@ function drawBoard (layout) {
                 allSpan[i].setAttribute('data-selected', layoutObj[l]['data-selected'])
             }
         })
+    }
+}
+
+function noOverWrite (s, dir) {
+    if (dir === 'right') {
+        if (s.style.borderTop !== '2px solid white') return true
+    } else if (dir === 'down') {
+        if (s.style.borderLeft !== '2px solid white') return true
+    } else if (dir === 'left') {
+        const arr = s.getAttribute('data-span').split('-')
+        const preEle = document.querySelector(`[data-span="r-${arr[1]}-${parseInt(arr[2]) - 1}"]`)
+        if (preEle.style.borderTop !== '2px solid white') return true
+    } else if (dir === 'up') {
+        const arr = s.getAttribute('data-span').split('-')
+        const topEle = document.querySelector(`[data-span="r-${parseInt(arr[1]) - 1}-${arr[2]}"]`)
+        if (topEle.style.borderTop !== '2px solid white') return true
     }
 }
