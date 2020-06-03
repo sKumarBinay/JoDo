@@ -35,12 +35,14 @@ window.onload = () => {
                                 s.style.borderTop = '2px solid white'
                                 storeBorderColor(`${s.getAttribute('data-span')}-Top=${player}`)
                                 markAfterJoin(data, swipedir)
+                                checkForSquare(s, swipedir)
                             }
                         } else if (swipedir === 'down') {
                             if (parseInt(s.getAttribute('data-span').split('-')[1]) !== row && noOverWrite(s, swipedir)) {
                                 s.style.borderLeft = '2px solid white'
                                 storeBorderColor(`${s.getAttribute('data-span')}-Left=${player}`)
                                 markAfterJoin(data, swipedir)
+                                checkForSquare(s, swipedir)
                             }
                         } else if (swipedir === 'left') {
                             if (noOverWrite(s, swipedir)) {
@@ -50,6 +52,7 @@ window.onload = () => {
                                 previous.style.borderTop = '2px solid white'
                                 storeBorderColor(`${previous.getAttribute('data-span')}-Top=${player}`)
                                 markAfterJoin(data, swipedir, previous)
+                                checkForSquare(s, swipedir)
                             }
                         } else if (swipedir === 'up') {
                             if (noOverWrite(s, swipedir)) {
@@ -59,9 +62,9 @@ window.onload = () => {
                                 previous.style.borderLeft = '2px solid white'
                                 storeBorderColor(`${previous.getAttribute('data-span')}-Left=${player}`)
                                 markAfterJoin(data, swipedir, previous)
+                                checkForSquare(s, swipedir)
                             }
                         }
-                        checkForSquare(s, swipedir)
                     })
 
                 })
