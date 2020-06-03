@@ -307,7 +307,7 @@ function checkWinner(data) {
     document.querySelectorAll('span').forEach(s => {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') count++
     })
-    if (count === parseInt(data.level) * 5) {
+    if (count === (parseInt(data.level) * 5) - 1) {
         clearInterval(interval)
         const p1Score = document.querySelector('[data-player1]')
         const p2Score = document.querySelector('[data-player2]')
