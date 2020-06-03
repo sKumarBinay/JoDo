@@ -6,6 +6,7 @@ const Schema = mongoose.Schema
 const PlayRoomSchema = new Schema({
     sessionId: {type: String},
     data: {type: String},
+    layout: {type: String},
     level: {type: String},
     player1: Player,
     player2: Player

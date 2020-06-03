@@ -7,6 +7,7 @@ const p = url.searchParams.get('player')
 const board = document.querySelector('.board')
 const p1 = document.querySelector('.player1')
 const p2 = document.querySelector('.player2')
+let interval
 
 window.onload = () => {
     fetch(`/jodo/room/${c}`)
@@ -80,6 +81,10 @@ window.onload = () => {
         })
 }
 
+window.onbeforeunload = () => {
+    clearInterval(interval)
+}
+
 
 function markAfterJoin(data, swipedir, prev = null) {
     const current = document.querySelector(`[data-span="${data}"]`)
@@ -105,6 +110,7 @@ function markAfterJoin(data, swipedir, prev = null) {
         prev.setAttribute('data-selected', `${selected},${data}`)
         current.setAttribute('data-selected', `${curreSelected},r-${parseInt(data.split('-')[1]) - 1}-${data.split('-')[2]}`)
     }
+    formatData()
 }
 
 function checkForSquare(currentSpan, swipedir) {
@@ -202,22 +208,24 @@ function storeBorderColor(data) {
 }
 
 function autoRefresh() {
-    setInterval(() => {
-        fetch(`/jodo/room/${c}`)
-            .then(res => res.json())
-            .then(res => {
-                if (p2.textContent === '') {
-                    p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
-                } else if (p1.textContent === '') {
-                    p1.textContent = res[0].player1.name.charAt(0).toUpperCase()
-                }
-                mapBorderColor(res[0].data)
-                mapBox(res[0].player1, 'player1')
-                mapBox(res[0].player2, 'player2')
-                switchUser(res[0])
-                checkWinner(res[0])
-            })
-    }, 1000);
+    interval = setInterval(refreshMethods, 500);
+}
+
+function refreshMethods () {
+    fetch(`/jodo/room/${c}`)
+    .then(res => res.json())
+    .then(res => {
+        if (p2.textContent === '') {
+            p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
+        } else if (p1.textContent === '') {
+            p1.textContent = res[0].player1.name.charAt(0).toUpperCase()
+        }
+        mapBorderColor(res[0].data)
+        mapBox(res[0].player1, 'player1')
+        mapBox(res[0].player2, 'player2')
+        switchUser(res[0])
+        checkWinner(res[0])
+    })
 }
 
 function switchUser(data) {
@@ -303,7 +311,7 @@ function mapBox(data, player) {
     })
 }
 
-function checkScore(span) {
+function checkScore (span) {
     const player = localStorage.getItem('player')
     span.setAttribute(`data-${player}`, localStorage.getItem('user'))
     span.innerHTML = player === 'player1' ?
@@ -337,6 +345,38 @@ function checkScore(span) {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             }
+        })
+    }
+}
+
+function formatData () {
+    const allSpan = document.querySelectorAll('span.area')
+    const dataObj = {}
+    allSpan.forEach((s, i) => {
+        dataObj[i] = {
+            'data-span': s.getAttribute('data-span'),
+            'data-selected': s.hasAttribute('data-selected') ? s.getAttribute('data-selected') : ''
+        }
+    })
+
+    fetch(`/jodo/layout/${c}`, {
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify({
+            layout: JSON.stringify(dataObj)
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
+}
+
+function drawBoard (layout) {
+    if (layout !== '') {
+        const layoutObj = JSON.parse(layout)
+        const allSpan = document.querySelectorAll('span.area')
+        Object.keys(layoutObj).forEach((l, i) => {
+        
         })
     }
 }
