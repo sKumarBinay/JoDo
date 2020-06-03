@@ -8,12 +8,13 @@ const board = document.querySelector('.board')
 const p1 = document.querySelector('.player1')
 const p2 = document.querySelector('.player2')
 let interval
+let row
 
 window.onload = () => {
     fetch(`/jodo/room/${c}`)
         .then(res => res.json())
         .then(res => {
-            const row = parseInt(res[0].level)
+            row = parseInt(res[0].level)
             board.innerHTML = ''
             for (let i = 1; i <= row; i++) {
                 const rowTemplate = `<div class="row" data-row="${i}">
@@ -30,13 +31,17 @@ window.onload = () => {
                     swipedetect(s, function (swipedir) {
                         const player = localStorage.getItem('player')
                         if (swipedir === 'right') {
-                            s.style.borderTop = '2px solid white'
-                            storeBorderColor(`${s.getAttribute('data-span')}-Top=${player}`)
-                            markAfterJoin(data, swipedir)
+                            if (parseInt(s.getAttribute('data-span').split('-')[2]) !== 5) {
+                                s.style.borderTop = '2px solid white'
+                                storeBorderColor(`${s.getAttribute('data-span')}-Top=${player}`)
+                                markAfterJoin(data, swipedir)
+                            }
                         } else if (swipedir === 'down') {
-                            s.style.borderLeft = '2px solid white'
-                            storeBorderColor(`${s.getAttribute('data-span')}-Left=${player}`)
-                            markAfterJoin(data, swipedir)
+                            if (parseInt(s.getAttribute('data-span').split('-')[1]) !== row) {
+                                s.style.borderLeft = '2px solid white'
+                                storeBorderColor(`${s.getAttribute('data-span')}-Left=${player}`)
+                                markAfterJoin(data, swipedir)
+                            }
                         } else if (swipedir === 'left') {
                             const data = s.getAttribute('data-span')
                             const selector = `[data-span="r-${data.split('-')[1]}-${parseInt(data.split('-')[2]) - 1}"]`
@@ -87,10 +92,10 @@ window.onbeforeunload = () => {
 
 
 function markAfterJoin(data, swipedir, prev = null) {
-    if(localStorage.getItem('flag').split('=')[0] === 'true') {
-        if (localStorage.getItem('flag').split('=')[1] === localStorage.getItem('player'))
-        localStorage.setItem('flag', 'false')
-    }
+    // if(localStorage.getItem('flag').split('=')[0] === 'true') {
+    //     if (localStorage.getItem('flag').split('=')[1] === localStorage.getItem('player'))
+    //     localStorage.setItem('flag', 'false')
+    // }
     const current = document.querySelector(`[data-span="${data}"]`)
     const curreSelected = current.hasAttribute('data-selected') ? current.getAttribute('data-selected') : ''
     if (swipedir === 'right') {
@@ -221,16 +226,16 @@ function refreshMethods () {
     .then(res => {
         localStorage.setItem('player2score', res[0].player2.score)
         localStorage.setItem('player1score', res[0].player1.score)
-        if (localStorage.getItem('player1score') !== res[0].player1.score) {
-            localStorage.setItem('flag', 'true=player1')
-        } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
-            localStorage.setItem('flag', 'true=player2')
-        } else if (localStorage.getItem('flag').split[0] === 'true' &&
-                    localStorage.getItem('flag').split[1] !== localStorage.getItem('player')) {
-            if (localStorage.getItem('data') !== res[0].data) {
-                localStorage.setItem('flag', 'false')
-            }
-        }
+        // if (localStorage.getItem('player1score') !== res[0].player1.score) {
+        //     localStorage.setItem('flag', 'true=player1')
+        // } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
+        //     localStorage.setItem('flag', 'true=player2')
+        // } else if (localStorage.getItem('flag').split[0] === 'true' &&
+        //             localStorage.getItem('flag').split[1] !== localStorage.getItem('player')) {
+        //     if (localStorage.getItem('data') !== res[0].data) {
+        //         localStorage.setItem('flag', 'false')
+        //     }
+        // }
 
         if (p2.textContent === '') {
             p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
@@ -252,28 +257,28 @@ function switchUser(data) {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
 
-    const flag = localStorage.getItem('flag') || '='
-    const flagState = flag.split('=')[0] === 'true' ? true : false
-    const flagUser = localStorage.getItem('flag').split('=')[1]
+    // const flag = localStorage.getItem('flag') || '='
+    // const flagState = flag.split('=')[0] === 'true' ? true : false
+    // const flagUser = localStorage.getItem('flag').split('=')[1]
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
     } else if (data.data.charAt(data.data.length - 1) === '1') {
-        if (flagState && flagUser === 'player1') {
-            p1.classList.add('selected')
-            p2.classList.remove('selected')
-        } else {
-            p1.classList.remove('selected')
-            p2.classList.add('selected')
-        }
+        // if (flagState && flagUser === 'player1') {
+        //     p1.classList.add('selected')
+        //     p2.classList.remove('selected')
+        // } else {
+        // }
+        p1.classList.remove('selected')
+        p2.classList.add('selected')
     } else if (data.data.charAt(data.data.length - 1) === '2') {   
-        if (flagState && flagUser === 'player2') {
-            p1.classList.remove('selected')
-            p2.classList.add('selected')
-        } else {
-            p1.classList.add('selected')
-            p2.classList.remove('selected')
-    }
+        // if (flagState && flagUser === 'player2') {
+        //     p1.classList.remove('selected')
+        //     p2.classList.add('selected')
+        // } else {
+        // }
+        p1.classList.add('selected')
+        p2.classList.remove('selected')
 }
         if (p1.classList.contains('selected')) {
             if (localStorage.getItem('player') === 'player1') {

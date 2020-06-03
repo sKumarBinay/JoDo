@@ -78,7 +78,7 @@ function getNewData(id) {
 }
 
 join.addEventListener('click', () => {
-    const roomId = document.querySelector('#join').value
+    const roomId = document.querySelector('#join').value.toLowerCase()
     if (roomId.trim().length > 3) {
         fetch(`/jodo/player/${roomId}`, {
             method: 'PUT',
