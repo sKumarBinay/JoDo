@@ -48,7 +48,8 @@ function randomRoomCreator() {
 }
 
 host.addEventListener('click', () => {
-    const roomId = randomRoomCreator()
+    let roomId = randomRoomCreator()
+    if (roomId.length < 4) roomId = randomRoomCreator()
     fetch('/jodo', {
         method: 'POST',
         mode: 'cors',

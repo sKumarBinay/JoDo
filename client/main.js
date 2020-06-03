@@ -220,6 +220,7 @@ function refreshMethods () {
         } else if (p1.textContent === '') {
             p1.textContent = res[0].player1.name.charAt(0).toUpperCase()
         }
+        drawBoard(res[0].layout)
         mapBorderColor(res[0].data)
         mapBox(res[0].player1, 'player1')
         mapBox(res[0].player2, 'player2')
@@ -376,7 +377,9 @@ function drawBoard (layout) {
         const layoutObj = JSON.parse(layout)
         const allSpan = document.querySelectorAll('span.area')
         Object.keys(layoutObj).forEach((l, i) => {
-        
+            if (layoutObj[l]['data-selected'] !== '') {
+                allSpan[i].setAttribute('data-selected', layoutObj[l]['data-selected'])
+            }
         })
     }
 }
