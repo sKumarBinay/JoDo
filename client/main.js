@@ -221,9 +221,8 @@ function refreshMethods () {
             localStorage.setItem('flag', 'true=player1')
         } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
             localStorage.setItem('flag', 'true=player2')
-        } else {
-            localStorage.setItem('flag', 'false')
         }
+        
         if (p2.textContent === '') {
             p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
         } else if (p1.textContent === '') {
