@@ -215,6 +215,13 @@ function refreshMethods () {
     fetch(`/jodo/room/${c}`)
     .then(res => res.json())
     .then(res => {
+        if (localStorage.getItem('player1score') !== res[0].player1.score) {
+            localStorage.setItem('flag', 'true=player1')
+        } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
+            localStorage.setItem('flag', 'true=player2')
+        } else {
+            localStorage.setItem('flag', 'false')
+        }
         if (p2.textContent === '') {
             p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
         } else if (p1.textContent === '') {
@@ -234,17 +241,30 @@ function switchUser(data) {
     document.querySelectorAll('span').forEach(s => {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
-    // debugger
-    // board.style.pointerEvents = 'none'
+
+    const flag = localStorage.getItem('flag') || '='
+    const flagState = flag.split('=')[0] === 'true' ? true : false
+    const flagUser = localStorage.getItem('flag').split('=')[0]
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
     } else if (data.data.charAt(data.data.length - 1) === '1') {
-        p1.classList.remove('selected')
-        p2.classList.add('selected')
-    } else if (data.data.charAt(data.data.length - 1) === '2') {
-        p1.classList.add('selected')
-        p2.classList.remove('selected') 
+        if (flagState && flagUser === 'player1') {
+            p1.classList.add('selected')
+            p2.classList.remove('selected')
+            localStorage.setItem('flag', 'false')
+        } else {
+            p1.classList.remove('selected')
+            p2.classList.add('selected')
+        }
+    } else if (data.data.charAt(data.data.length - 1) === '2') {   
+        if (flagState && flagUser === 'player2') {
+            p1.classList.remove('selected')
+            p2.classList.add('selected')
+            localStorage.setItem('flag', 'false')
+        } else {
+            p1.classList.add('selected')
+            p2.classList.remove('selected')
     }
     
     if (p1.classList.contains('selected')) {
@@ -320,6 +340,7 @@ function checkScore (span) {
         `<div class="user-box player2">${localStorage.getItem('user').charAt(0).toUpperCase()}</div>`
     const score = localStorage.getItem(`${player}score`) + '+' + span.getAttribute('data-span')
     localStorage.setItem(`${player}score`, score)
+    localStorage.setItem('flag', `true=${player}`)
 
     if (localStorage.getItem('player') === 'player1') {
         fetch(`/jodo/player1score/${c}`, {
