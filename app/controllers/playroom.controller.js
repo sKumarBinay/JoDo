@@ -7,6 +7,7 @@ exports.createSession = (req, res) => {
     sessionId: req.body.sessionId,
     data: req.body.data,
     layout: req.body.layout,
+    flag: req.body.flag,
     level: req.body.level,
     player1: {
       name: req.body.player1.name,
@@ -66,6 +67,20 @@ exports.updateLayout = (req, res) => {
     { 
         "$set": {
             "layout": req.body.layout
+        }
+    }, { new: true },
+    function(err,doc) {
+        res.send(doc)
+    }
+)
+}
+
+exports.updateFlag = (req, res) => {
+  Playroom.updateMany(
+    { 'sessionId': req.params.sessionId },
+    { 
+        "$set": {
+            "flag": req.body.flag
         }
     }, { new: true },
     function(err,doc) {

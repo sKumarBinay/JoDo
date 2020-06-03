@@ -7,6 +7,7 @@ const PlayRoomSchema = new Schema({
     sessionId: {type: String},
     data: {type: String},
     layout: {type: String},
+    flag: {type: String},
     level: {type: String},
     player1: Player,
     player2: Player

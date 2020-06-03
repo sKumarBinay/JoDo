@@ -99,10 +99,19 @@ window.onbeforeunload = () => {
 
 
 function markAfterJoin(data, swipedir, prev = null) {
-    // if(localStorage.getItem('flag').split('=')[0] === 'true') {
-    //     if (localStorage.getItem('flag').split('=')[1] === localStorage.getItem('player'))
-    //     localStorage.setItem('flag', 'false')
-    // }
+    if(localStorage.getItem('flag').split('=')[0] === 'true') {
+        fetch(`/jodo/flag/${c}`, {
+            method: 'PUT',
+            mode: 'cors',
+            body: JSON.stringify({
+                flag: 'false='
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        localStorage.setItem('flag', 'false')
+    }
     const current = document.querySelector(`[data-span="${data}"]`)
     const curreSelected = current.hasAttribute('data-selected') ? current.getAttribute('data-selected') : ''
     if (swipedir === 'right') {
@@ -233,16 +242,7 @@ function refreshMethods () {
     .then(res => {
         localStorage.setItem('player2score', res[0].player2.score)
         localStorage.setItem('player1score', res[0].player1.score)
-        // if (localStorage.getItem('player1score') !== res[0].player1.score) {
-        //     localStorage.setItem('flag', 'true=player1')
-        // } else if (localStorage.getItem('player2score') !== res[0].player2.score) {
-        //     localStorage.setItem('flag', 'true=player2')
-        // } else if (localStorage.getItem('flag').split[0] === 'true' &&
-        //             localStorage.getItem('flag').split[1] !== localStorage.getItem('player')) {
-        //     if (localStorage.getItem('data') !== res[0].data) {
-        //         localStorage.setItem('flag', 'false')
-        //     }
-        // }
+        localStorage.setItem('flag', res[0].flag)
 
         if (p2.textContent === '') {
             p2.textContent = res[0].player2.name.charAt(0).toUpperCase()
@@ -264,28 +264,28 @@ function switchUser(data) {
         if (s.style.borderTop || s.style.borderLeft === '2px solid white') coun++
     })
 
-    // const flag = localStorage.getItem('flag') || '='
-    // const flagState = flag.split('=')[0] === 'true' ? true : false
-    // const flagUser = localStorage.getItem('flag').split('=')[1]
+    const flag = data.flag
+    const flagState = flag.split('=')[0] === 'true' ? true : false
+    const flagUser = localStorage.getItem('flag').split('=')[1]
     if (coun === 0 && localStorage.getItem('player') === 'player1') {
         p1.classList.add('selected')
         board.style.pointerEvents = 'auto'
     } else if (data.data.charAt(data.data.length - 1) === '1') {
-        // if (flagState && flagUser === 'player1') {
-        //     p1.classList.add('selected')
-        //     p2.classList.remove('selected')
-        // } else {
-        // }
-        p1.classList.remove('selected')
-        p2.classList.add('selected')
+        if (flagState && flagUser === 'player1') {
+            p1.classList.add('selected')
+            p2.classList.remove('selected')
+        } else {
+            p1.classList.remove('selected')
+            p2.classList.add('selected')
+        }
     } else if (data.data.charAt(data.data.length - 1) === '2') {   
-        // if (flagState && flagUser === 'player2') {
-        //     p1.classList.remove('selected')
-        //     p2.classList.add('selected')
-        // } else {
-        // }
-        p1.classList.add('selected')
-        p2.classList.remove('selected')
+        if (flagState && flagUser === 'player2') {
+            p1.classList.remove('selected')
+            p2.classList.add('selected')
+        } else {
+            p1.classList.add('selected')
+            p2.classList.remove('selected')
+        }
 }
         if (p1.classList.contains('selected')) {
             if (localStorage.getItem('player') === 'player1') {
@@ -354,6 +354,16 @@ function mapBox(data, player) {
 
 function checkScore (span) {
     const player = localStorage.getItem('player')
+    fetch(`/jodo/flag/${c}`, {
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify({
+            flag: `true=${player}`
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
     span.setAttribute(`data-${player}`, localStorage.getItem('user'))
     span.innerHTML = player === 'player1' ?
         `<div class="user-box">${localStorage.getItem('user').charAt(0).toUpperCase()}</div>` :

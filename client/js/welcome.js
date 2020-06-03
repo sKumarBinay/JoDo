@@ -65,6 +65,7 @@ function getNewData(id) {
         sessionId: id,
         data: '',
         layout: '',
+        flag: 'false=',
         level: document.querySelector('[name="row"]:checked').value,
         player1: {
             name: localStorage.getItem('user'),
