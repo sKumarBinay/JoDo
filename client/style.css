@@ -3,6 +3,11 @@ html, body {
     color: white;
     background-color: black;
     margin: 0;
+    overflow: hidden;
+}
+
+.bg-img1 {
+  margin-top: 20px;
 }
 
 .d-none {
