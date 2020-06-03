@@ -258,7 +258,6 @@ function switchUser(data) {
         if (flagState && flagUser === 'player1') {
             p1.classList.add('selected')
             p2.classList.remove('selected')
-            localStorage.setItem('flag', 'false')
         } else {
             p1.classList.remove('selected')
             p2.classList.add('selected')
@@ -267,7 +266,6 @@ function switchUser(data) {
         if (flagState && flagUser === 'player2') {
             p1.classList.remove('selected')
             p2.classList.add('selected')
-            localStorage.setItem('flag', 'false')
         } else {
             p1.classList.add('selected')
             p2.classList.remove('selected')
